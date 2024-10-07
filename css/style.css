@@ -1,0 +1,67 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+header {
+  background: linear-gradient(rgb(87, 56, 56), rgb(18, 7, 164));
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+}
+header nav {
+  margin: 10px 0;
+}
+header nav a {
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+main .banner {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2em;
+  background: linear-gradient(rgb(1, 105, 215), rgb(8, 56, 107));
+}
+main .container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+main .products, main .offers, main .testimonials {
+  margin: 20px 0;
+}
+main .product, main .offer {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 5px;
+  background: #f1f1f1;
+}
+main .product img, main .offer img {
+  max-width: 100%;
+  height: auto;
+}
+main .button {
+  background: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+main .testimonials {
+  background: #e9ecef;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/*# sourceMappingURL=style.css.map */
