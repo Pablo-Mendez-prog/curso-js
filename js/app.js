@@ -60,7 +60,3 @@ function iniciarCompra() {
 }
 
 iniciarCompra();
-
-
-
-no me anda git
