@@ -5,7 +5,7 @@ const productos = {
 };
 
 function mostrarProductos() {
-    let productList = "Selecciona un producto:\n";
+    let productList = "Selecciona un producto ingresando el nombre:\n";
     for (let nombre in productos) {
         productList += `${nombre} - Precio: $${productos[nombre].precio} - Stock: ${productos[nombre].stock}\n`;
     }
