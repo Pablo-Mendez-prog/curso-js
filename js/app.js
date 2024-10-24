@@ -32,8 +32,8 @@ function mostrarCarrito() {
     total += subtotal;
   }
   carritoList.push({ Total: `$${total.toFixed(2)}` });
-  console.table(carritoList); 
-  return total; 
+  console.table(carritoList);
+  return total;
 }
 
 function modificarCarrito() {
@@ -150,8 +150,44 @@ function preguntarSiNo(mensaje) {
   return respuesta === "si";
 }
 
+function filtrarProductosPorPrecio() {
+  let precioMaximo = parseFloat(
+    prompt("Ingresa el precio máximo que deseas ver:")
+  );
+
+  if (isNaN(precioMaximo) || precioMaximo <= 0) {
+    alert("Por favor, ingresa un precio válido.");
+    return;
+  }
+
+  let productosFiltrados = [];
+  for (let nombre in productos) {
+    if (productos[nombre].precio <= precioMaximo) {
+      productosFiltrados.push({
+        Producto: nombre.charAt(0).toUpperCase() + nombre.slice(1),
+        Precio: `$${productos[nombre].precio}`,
+        Stock: productos[nombre].stock,
+      });
+    }
+  }
+
+  if (productosFiltrados.length > 0) {
+    console.table(productosFiltrados);
+  } else {
+    alert("No hay productos disponibles dentro de ese rango de precio.");
+  }
+}
+
 function iniciarCompra() {
   let continuar = true;
+
+  let filtrar = preguntarSiNo(
+    "¿Deseas filtrar productos por precio antes de comprar? (escribe sí o no):"
+  );
+  if (filtrar) {
+    filtrarProductosPorPrecio();
+  }
+
   while (continuar) {
     mostrarProductos();
     let seleccion;
