@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="../css/stylecarrito.css" />
+</head>
+
+<body>
+    <header>
+        <h1>Mi Carrito</h1>
+    </header>
+    <main>
+        <div id="carrito-container">
+        </div>
+        <div id="total-container">
+            <p id="total-price">Total: $0.00</p>
+        </div>
+        <button id="aplicar-descuento">Aplicar Descuento</button>
+        <a href="../index.html">
+            <button id="seguir-comprando">Seguir Comprando</button>
+        </a>
+        <div id="cuotas-container">
+            <label for="cuotas">Selecciona la cantidad de cuotas:</label>
+            <select id="cuotas">
+                <option value="1">1 cuota</option>
+                <option value="3">3 cuotas</option>
+                <option value="6">6 cuotas</option>
+                <option value="12">12 cuotas</option>
+            </select>
+        </div>
+        <button id="finalizar-compra">Finalizar Compra</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 Mi Tienda Online. Todos los derechos reservados.</p>
+    </footer>
+    <script src="../js/carrito.js"></script>
+</body>
+
+</html>

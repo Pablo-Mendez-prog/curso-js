@@ -1,0 +1,157 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #1a73e8;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+#carrito-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.producto {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.producto:last-child {
+    border-bottom: none;
+}
+
+.producto p {
+    margin: 0;
+    color: #333;
+}
+
+.producto button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.producto button:hover {
+    background-color: #e60000;
+}
+
+#total-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+#total-price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#seguir-comprando {
+    background-color: #007bff;
+    margin-top: 15px;
+}
+
+#seguir-comprando:hover {
+    background-color: #0056b3;
+}
+
+#cuotas-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#cuotas {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 250px;
+    margin: 10px auto;
+}
+
+label {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+footer {
+    background-color: #1a73e8;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 15px 0;
+    }
+
+    .producto {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .producto button {
+        margin-top: 10px;
+    }
+
+    #carrito-container {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    #cuotas-container {
+        margin-top: 15px;
+    }
+}

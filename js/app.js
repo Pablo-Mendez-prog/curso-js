@@ -1,255 +1,108 @@
 const productos = {
-  cafe: { id: 1, precio: 135, stock: 10 },
-  arroz: { id: 2, precio: 55, stock: 5 },
-  fideos: { id: 3, precio: 40, stock: 20 },
+  cafe: { id: 1, precio: 135, stock: 110, imagen : "https://http2.mlstatic.com/D_NQ_NP_741152-MLU77760655647_072024-O.webp" },
+  arroz: { id: 2, precio: 55, stock: 80 },
+  fideos: { id: 3, precio: 40, stock: 90 },
+  harina: { id: 4, precio: 40, stock: 50 },
+  azucar: { id: 5, precio: 45, stock: 100 },
 };
 
-let carrito = {};
 
-function mostrarProductos() {
-  let productList = [];
-  for (let nombre in productos) {
-    productList.push({
-      ID: productos[nombre].id,
-      Producto: nombre.charAt(0).toUpperCase() + nombre.slice(1),
-      Precio: `$${productos[nombre].precio}`,
-      Stock: productos[nombre].stock,
-    });
+function actualizarCarrito(producto, cantidad) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || {};
+
+  if (carrito[producto]) {
+    carrito[producto].cantidad += cantidad;
+  } else {
+    carrito[producto] = {
+      precio: productos[producto].precio,
+      cantidad: cantidad,
+    };
   }
-  console.table(productList);
+
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+
+  productos[producto].stock -= cantidad;
+
+  actualizarStockEnPagina();
 }
 
-function mostrarCarrito() {
-  let carritoList = [];
-  let total = 0;
-  for (let producto in carrito) {
-    let subtotal = carrito[producto].cantidad * carrito[producto].precio;
-    carritoList.push({
-      Producto: producto.charAt(0).toUpperCase() + producto.slice(1),
-      Cantidad: carrito[producto].cantidad,
-      Subtotal: `$${subtotal.toFixed(2)}`,
-    });
-    total += subtotal;
-  }
-  carritoList.push({ Total: `$${total.toFixed(2)}` });
-  console.table(carritoList);
-  return total;
+
+function actualizarStockEnPagina() {
+  const productosDisponibles = document.querySelectorAll(".producto");
+  productosDisponibles.forEach((productoElemento) => {
+    const productoNombre = productoElemento.dataset.producto;
+    const stockElemento = productoElemento.querySelector(".stock");
+    stockElemento.textContent = `Stock disponible: ${productos[productoNombre].stock}`;
+  });
 }
 
-function modificarCarrito() {
-  mostrarCarrito();
-  let productoAEliminar;
 
-  do {
-    productoAEliminar = prompt(
-      "Escribe el nombre del producto que deseas eliminar del carrito:"
-    )
-      .trim()
-      .toLowerCase();
+function agregarAlCarrito(producto) {
+  const cantidad = parseInt(prompt("¿Cuántas unidades deseas agregar?"));
 
-    if (!carrito[productoAEliminar]) {
-      alert(
-        "Producto no encontrado en el carrito. Por favor, intenta de nuevo."
-      );
-      continue;
-    }
-
-    let cantidadAEliminar = parseInt(
-      prompt(`¿Cuántas unidades de ${productoAEliminar} deseas eliminar?`)
-    );
-
-    if (isNaN(cantidadAEliminar) || cantidadAEliminar <= 0) {
-      alert("Cantidad no válida. Por favor, ingresa un número positivo.");
-      continue;
-    }
-
-    if (carrito[productoAEliminar].cantidad < cantidadAEliminar) {
-      alert(
-        `No puedes eliminar más unidades de las que tienes en el carrito. Solo tienes ${carrito[productoAEliminar].cantidad} unidades.`
-      );
-      continue;
-    }
-
-    carrito[productoAEliminar].cantidad -= cantidadAEliminar;
-    productos[productoAEliminar].stock += cantidadAEliminar;
-
-    if (carrito[productoAEliminar].cantidad === 0) {
-      delete carrito[productoAEliminar];
-      alert(
-        `${
-          productoAEliminar.charAt(0).toUpperCase() + productoAEliminar.slice(1)
-        } ha sido eliminado del carrito.`
-      );
-    } else {
-      alert(
-        `${cantidadAEliminar} unidades de ${
-          productoAEliminar.charAt(0).toUpperCase() + productoAEliminar.slice(1)
-        } han sido eliminadas del carrito.`
-      );
-    }
-
-    let continuarModificar = preguntarSiNo(
-      "¿Deseas eliminar otro producto del carrito? (escribe sí o no):"
-    );
-    if (!continuarModificar) break;
-  } while (true);
-}
-
-function calcularTotal() {
-  let total = mostrarCarrito();
-  let porcentajedescuento;
-
-  do {
-    porcentajedescuento = parseFloat(
-      prompt("Ingresa el porcentaje de descuento (0 si no hay descuentos):")
-    );
-    if (
-      isNaN(porcentajedescuento) ||
-      porcentajedescuento < 0 ||
-      porcentajedescuento > 100
-    ) {
-      alert(
-        "Por favor, ingresa un porcentaje de descuento válido entre 0 y 100."
-      );
-    }
-  } while (
-    isNaN(porcentajedescuento) ||
-    porcentajedescuento < 0 ||
-    porcentajedescuento > 100
-  );
-
-  let totalConDescuento = total - total * (porcentajedescuento / 100);
-  alert(
-    `El monto total a pagar es: $${total.toFixed(2)}\n` +
-      `Descuento del ${porcentajedescuento}% aplicado.\n` +
-      `Total después del descuento: $${totalConDescuento.toFixed(2)}`
-  );
-
-  let cantidadCuotas;
-  do {
-    cantidadCuotas = parseInt(prompt("¿En cuántas cuotas deseas pagar?"));
-    if (isNaN(cantidadCuotas) || cantidadCuotas <= 0) {
-      alert("Por favor, ingresa un número válido de cuotas.");
-    }
-  } while (isNaN(cantidadCuotas) || cantidadCuotas <= 0);
-
-  let valorCuota = totalConDescuento / cantidadCuotas;
-  alert(
-    `Cada cuota será de: $${valorCuota.toFixed(2)} en ${cantidadCuotas} cuotas.`
-  );
-}
-
-function preguntarSiNo(mensaje) {
-  let respuesta;
-  do {
-    respuesta = prompt(mensaje).trim().toLowerCase();
-    if (respuesta !== "si" && respuesta !== "no") {
-      alert("Por favor, responde 'sí' o 'no'.");
-    }
-  } while (respuesta !== "si" && respuesta !== "no");
-  return respuesta === "si";
-}
-
-function filtrarProductosPorPrecio() {
-  let precioMaximo = parseFloat(
-    prompt("Ingresa el precio máximo que deseas ver:")
-  );
-
-  if (isNaN(precioMaximo) || precioMaximo <= 0) {
-    alert("Por favor, ingresa un precio válido.");
+  if (isNaN(cantidad) || cantidad <= 0) {
+    alert("Por favor, ingresa una cantidad válida.");
     return;
   }
 
-  let productosFiltrados = [];
-  for (let nombre in productos) {
-    if (productos[nombre].precio <= precioMaximo) {
-      productosFiltrados.push({
-        Producto: nombre.charAt(0).toUpperCase() + nombre.slice(1),
-        Precio: `$${productos[nombre].precio}`,
-        Stock: productos[nombre].stock,
-      });
-    }
+  if (productos[producto].stock < cantidad) {
+    alert(
+      `No hay suficiente stock para ${producto}. Solo quedan ${productos[producto].stock} unidades.`
+    );
+    return;
   }
 
-  if (productosFiltrados.length > 0) {
-    console.table(productosFiltrados);
-  } else {
-    alert("No hay productos disponibles dentro de ese rango de precio.");
-  }
-}
+  actualizarCarrito(producto, cantidad);
 
-function iniciarCompra() {
-  let continuar = true;
-
-  let filtrar = preguntarSiNo(
-    "¿Deseas filtrar productos por precio antes de comprar? (escribe sí o no):"
+  alert(
+    `${cantidad} unidades de ${producto.charAt(0).toUpperCase() + producto.slice(1)} han sido añadidas al carrito.`
   );
-  if (filtrar) {
-    filtrarProductosPorPrecio();
-  }
-
-  while (continuar) {
-    mostrarProductos();
-    let seleccion;
-
-    do {
-      seleccion = prompt(
-        "¿Qué producto deseas agregar al carrito? (escribe el nombre)"
-      )
-        .trim()
-        .toLowerCase();
-
-      if (!productos[seleccion]) {
-        alert("Producto no válido. Intenta de nuevo.");
-      }
-    } while (!productos[seleccion]);
-
-    let cantidad;
-    do {
-      cantidad = parseInt(prompt("¿Cuántas unidades deseas agregar?"));
-      if (isNaN(cantidad) || cantidad <= 0) {
-        alert("Cantidad no válida. Por favor, ingresa un número positivo.");
-      } else if (productos[seleccion].stock < cantidad) {
-        alert(
-          `No hay suficiente stock para ${seleccion}. Solo quedan ${productos[seleccion].stock} unidades.`
-        );
-      }
-    } while (
-      isNaN(cantidad) ||
-      cantidad <= 0 ||
-      productos[seleccion].stock < cantidad
-    );
-
-    if (carrito[seleccion]) {
-      carrito[seleccion].cantidad += cantidad;
-    } else {
-      carrito[seleccion] = {
-        precio: productos[seleccion].precio,
-        cantidad: cantidad,
-      };
-    }
-    productos[seleccion].stock -= cantidad;
-
-    mostrarCarrito();
-
-    let continuarComprando = preguntarSiNo(
-      "¿Deseas continuar comprando? (escribe sí o no):"
-    );
-    if (!continuarComprando) {
-      continuar = false;
-    } else {
-      let modificar = preguntarSiNo(
-        "¿Deseas modificar el carrito (eliminar productos)? (escribe sí o no):"
-      );
-      if (modificar) {
-        modificarCarrito();
-      }
-    }
-  }
-
-  calcularTotal();
-
-  alert("Gracias por su compra. ¡Vuelva pronto!");
 }
 
-iniciarCompra();
+
+function mostrarProductos(productosOrdenados) {
+  const productosContainer = document.getElementById("productos-container");
+  productosContainer.innerHTML = "";  
+
+  productosOrdenados.forEach(([producto, productoData]) => {
+    const divProducto = document.createElement("div");
+    divProducto.classList.add("producto", "p-4", "rounded-lg", "shadow-md", "bg-white", "text-center");
+    divProducto.dataset.producto = producto;
+
+    divProducto.innerHTML = `
+      <h3 class="text-lg font-semibold">${producto.charAt(0).toUpperCase() + producto.slice(1)}</h3>
+      <p class="text-gray-600">Precio: $${productoData.precio}</p>
+      <p class="stock text-sm text-gray-500">Stock disponible: ${productoData.stock}</p>
+      <button class="mt-4 p-2 bg-blue-500 text-white rounded" onclick="agregarAlCarrito('${producto}')">Añadir al Carrito</button>
+    `;
+    productosContainer.appendChild(divProducto);
+  });
+}
+
+
+function ordenarProductosPorPrecio() {
+  const productosOrdenados = Object.entries(productos)
+    .sort((a, b) => a[1].precio - b[1].precio);
+
+  mostrarProductos(productosOrdenados);
+}
+
+
+function filtrarProductos() {
+  const query = document.getElementById("filtro").value.toLowerCase();
+
+  const productosFiltrados = Object.entries(productos).filter(([producto, productoData]) => {
+    return producto.toLowerCase().includes(query);
+  });
+
+  mostrarProductos(productosFiltrados);
+}
+
+
+document.getElementById("ordenar-precio").addEventListener("click", ordenarProductosPorPrecio);
+document.getElementById("filtro").addEventListener("input", filtrarProductos);
+
+
+window.onload = function () {
+  mostrarProductos(Object.entries(productos));
+};

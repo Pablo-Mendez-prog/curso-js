@@ -1,67 +1,152 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  color: #333;
 }
 
 header {
-  background: linear-gradient(rgb(87, 56, 56), rgb(18, 7, 164));
-  color: #fff;
-  padding: 10px 20px;
+  background-color: #1a73e8;
+  color: white;
+  padding: 20px 0;
   text-align: center;
-}
-header nav {
-  margin: 10px 0;
-}
-header nav a {
-  color: #fff;
-  margin: 0 15px;
-  text-decoration: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-main .banner {
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 2em;
-  background: linear-gradient(rgb(1, 105, 215), rgb(8, 56, 107));
+h1 {
+  font-size: 2rem;
+  margin: 0;
 }
-main .container {
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  display: block;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffcc00;
+}
+
+.banner {
+  background-color: #ffcc00;
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.banner h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.container {
   max-width: 1200px;
   margin: 20px auto;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-main .products, main .offers, main .testimonials {
-  margin: 20px 0;
-}
-main .product, main .offer {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px;
-  text-align: center;
-  border-radius: 5px;
-  background: #f1f1f1;
-}
-main .product img, main .offer img {
-  max-width: 100%;
-  height: auto;
-}
-main .button {
-  background: #28a745;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-}
-main .testimonials {
-  background: #e9ecef;
-  padding: 20px;
-  border-radius: 5px;
+  padding: 0 15px;
 }
 
-/*# sourceMappingURL=style.css.map */
+#productos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.producto {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.producto:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.producto img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #ddd;
+}
+
+.producto .info {
+  padding: 15px;
+}
+
+.producto h3 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+  color: #333;
+}
+
+.producto p {
+  font-size: 1rem;
+  color: #777;
+}
+
+.producto .precio {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a73e8;
+}
+
+.producto button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.producto button:hover {
+  background-color: #218838;
+}
+
+footer {
+  background-color: #1a73e8;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  header {
+      padding: 15px 0;
+  }
+
+  .banner h2 {
+      font-size: 1.5rem;
+  }
+
+  #productos-container {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .producto {
+      font-size: 0.9rem;
+  }
+
+  .producto button {
+      padding: 8px 15px;
+  }
+}
