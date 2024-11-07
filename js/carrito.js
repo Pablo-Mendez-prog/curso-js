@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const carritoGuardado = localStorage.getItem("carrito");
     return carritoGuardado ? JSON.parse(carritoGuardado) : {};
   }
+  
   function mostrarCarrito() {
     const carritoContainer = document.getElementById("carrito-container");
     carritoContainer.innerHTML = "";
@@ -34,46 +35,38 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
   function eliminarProductoDelCarrito(producto) {
     const cantidadActual = carrito[producto].cantidad;
-    const cantidadEliminar = parseInt(
-      prompt(
-        `¿Cuántos ${
-        producto.charAt(0).toUpperCase() + producto.slice(1)
-        } desea eliminar? (Cantidad actual: ${cantidadActual})`
-      )
-    );
-    if (
-      !isNaN(cantidadEliminar) &&
-      cantidadEliminar > 0 &&
-      cantidadEliminar <= cantidadActual
-    ) {
-      carrito[producto].cantidad -= cantidadEliminar;
-      if (carrito[producto].cantidad === 0) {
-        delete carrito[producto];
-      }
-      guardarCarritoEnLocalStorage();
-      mostrarCarrito();
-    } else {
+    const cantidadEliminar = parseInt(prompt(`¿Cuántos ${producto} desea eliminar? (Cantidad actual: ${cantidadActual})`));
+  
+    if (isNaN(cantidadEliminar) || cantidadEliminar <= 0 || cantidadEliminar > cantidadActual) {
       alert("Por favor, ingrese una cantidad válida.");
+    } else {
+      const confirmar = confirm(`¿Está seguro de que desea eliminar ${cantidadEliminar} unidades de ${producto}?`);
+      if (confirmar) {
+        carrito[producto].cantidad -= cantidadEliminar;
+        if (carrito[producto].cantidad === 0) {
+          delete carrito[producto];
+        }
+        guardarCarritoEnLocalStorage();
+        mostrarCarrito();
+      }
     }
   }
+
   function guardarCarritoEnLocalStorage() {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }
   document.getElementById("aplicar-descuento").addEventListener("click", () => {
     const descuento = parseFloat(prompt("Ingrese el porcentaje de descuento:"));
-    if (!isNaN(descuento) && descuento > 0 && descuento <= 100) {
+    if (isNaN(descuento) || descuento < 0 || descuento > 100) {
+      alert("Por favor, ingrese un porcentaje de descuento válido (entre 0 y 100).");}{
       const totalElement = document.getElementById("total-price");
-      let total = parseFloat(totalElement.textContent.replace("Total: $", ""));
-      let totalConDescuento = total - total * (descuento / 100);
-      totalElement.textContent = `Total con descuento: $${totalConDescuento.toFixed(
-        2
-      )}`;
-    } else {
-      alert("Por favor, ingrese un descuento válido.");
-    }
-  });
+      const total = parseFloat(totalElement.textContent.replace("Total: $", ""));
+  const totalConDescuento = total - total * (descuento / 100);
+  totalElement.textContent = `Total con descuento: $${totalConDescuento.toFixed(2)}`;
+}});
 
   document.getElementById("finalizar-compra").addEventListener("click", () => {
     const totalElement = document.getElementById("total-price");
