@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const carritoGuardado = localStorage.getItem("carrito");
     return carritoGuardado ? JSON.parse(carritoGuardado) : {};
   }
-  
   function mostrarCarrito() {
     const carritoContainer = document.getElementById("carrito-container");
     carritoContainer.innerHTML = "";
@@ -35,26 +34,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
   function eliminarProductoDelCarrito(producto) {
     const cantidadActual = carrito[producto].cantidad;
-    const cantidadEliminar = parseInt(prompt(`¿Cuántos ${producto} desea eliminar? (Cantidad actual: ${cantidadActual})`));
-  
-    if (isNaN(cantidadEliminar) || cantidadEliminar <= 0 || cantidadEliminar > cantidadActual) {
-      alert("Por favor, ingrese una cantidad válida.");
-    } else {
-      const confirmar = confirm(`¿Está seguro de que desea eliminar ${cantidadEliminar} unidades de ${producto}?`);
-      if (confirmar) {
-        carrito[producto].cantidad -= cantidadEliminar;
-        if (carrito[producto].cantidad === 0) {
-          delete carrito[producto];
-        }
-        guardarCarritoEnLocalStorage();
-        mostrarCarrito();
+    let cantidadEliminar = parseInt(prompt(`¿Cuántos ${producto} desea eliminar? (Cantidad actual: ${cantidadActual})`));
+    if (
+      !isNaN(cantidadEliminar) &&
+      cantidadEliminar > 0 &&
+      cantidadEliminar <= cantidadActual
+    ) {
+      carrito[producto].cantidad -= cantidadEliminar;
+      if (carrito[producto].cantidad === 0) {
+        delete carrito[producto];
       }
+      guardarCarritoEnLocalStorage();
+      mostrarCarrito();
+    } else {
+      alert("Por favor, ingrese una cantidad válida.");
     }
   }
-
   function guardarCarritoEnLocalStorage() {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }
